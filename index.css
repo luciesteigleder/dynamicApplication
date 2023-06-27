@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Quicksand", sans-serif;
+}
+
+@media screen and (max-width: 500px) {
+  header {
+    height: 40px;
+    background-color: aquamarine;
+  }
+  .titleLocalization {
+    height: 80px;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+  }
+  .titleLocalization .cityName {
+    padding: 0 10px;
+  }
+  .titleLocalization .countryName {
+    text-transform: uppercase;
+  }
+  .backgroundImage {
+    height: 500px;
+    background-image: url(https://plus.unsplash.com/premium_photo-1666283181610-b95ee7e55465?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
+    background-color: rgba(0, 255, 255, 0.2);
+    background-blend-mode: overlay;
+  }
+  .backgroundImage .basicInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .backgroundImage .basicInfo .temp {
+    padding: 15px;
+  }
+  .backgroundImage .basicInfo .temp span {
+    font-size: 80px;
+  }
+  .backgroundImage .basicInfo .otherInfo div {
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+  }
+  .backgroundImage .basicInfo .otherInfo div i {
+    padding-right: 10px;
+  }
+  .forecast {
+    border: 1px solid black;
+    height: 150px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .forecast div {
+    border: 1px solid blue;
+    width: auto;
+  }
+}
+
+/*# sourceMappingURL=index.css.map */

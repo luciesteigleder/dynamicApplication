@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="index.css">    <title>Dynamic Application</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="index.css">    
+    <title>Dynamic Application</title>
 </head>
+
 <body>
+
+    <header></header>
+
+    <main>
+        <div class="titleLocalization">
+            <p class="cityName">Paris</p>
+            <p class="countryName">France</p>
+        </div>
+
+        <div class="wrapper">
+            <div class="backgroundImage">
+                <div class="basicInfo">
+                    <div class="temp">
+                        <p><span class="temperature">20</span>°C</p>
+                    </div>
+                    <div class="otherInfo">
+                        <div class="weatherInfo">
+                            <i class="fa-regular fa-sun"></i>
+                            <p class="weather">Partly Cloudy</p>
+                        </div>
+                        <div class="rainInfo">
+                            <i class="fa-solid fa-umbrella"></i>
+                            <p><span class="rain">0</span>%</p>
+                        </div>
+                        <div class="winfInfo">
+                            <i class="fa-solid fa-wind"></i>
+                            <p><span class="wind">20</span>km/h</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="forecast">
+            <div class="day1"></div>
+            <div class="day2"></div>
+            <div class="day3"></div>
+            <div class="day4"></div>
+            <div class="day5"></div>
+        </div>
+    </main>
     
     <script src="index.js"></script>
 </body>
