@@ -14,6 +14,9 @@
     header {
         height: 40px;
         background-color: aquamarine;
+        display: flex;
+        align-items: center;
+        justify-content: right;
     }
 
     .titleLocalization {
@@ -50,6 +53,7 @@
                 div {
                     display: flex;
                     flex-direction: row;
+                    align-items: center;
                     padding: 2px;
                     i {
                         padding-right: 10px;

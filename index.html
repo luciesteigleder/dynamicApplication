@@ -15,7 +15,12 @@
 
 <body>
 
-    <header></header>
+    <header>
+        <form id="submitForm">
+            <input type="text" name="city" id="cityLabel" placeholder= "City">
+            <input type="submit" value="Search" id="submitButton">
+        </form>
+    </header>
 
     <main>
         <div class="titleLocalization">
@@ -54,8 +59,12 @@
             <div class="day4"></div>
             <div class="day5"></div>
         </div>
+
+        <div class="history">
+            <ul class="historyList"></ul>
+        </div>
     </main>
     
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>
