@@ -15,7 +15,7 @@ let temperature = document.querySelector(".temperature")
 const updatePage = (information) => {
     weather.innerText = information.weather[0].description
     temperature.innerHTML = Math.floor(information.main.temp)
-
+    //HERE -> CONTINUE TO UPDATE THE PAGE
 }
 
 
