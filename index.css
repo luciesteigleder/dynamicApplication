@@ -8,29 +8,27 @@
 @media screen and (max-width: 500px) {
   header {
     height: 40px;
-    background-color: aquamarine;
+    background-color: var(--my-color);
     display: flex;
     align-items: center;
     justify-content: right;
   }
   .titleLocalization {
     height: 80px;
-    background-color: aqua;
+    background-color: var(--my-color);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 25px;
   }
-  .titleLocalization .cityName {
+  .titleLocalization .cityNamePara {
     padding: 0 10px;
-  }
-  .titleLocalization .countryName {
-    text-transform: uppercase;
   }
   .backgroundImage {
     height: 500px;
     background-image: url(https://plus.unsplash.com/premium_photo-1666283181610-b95ee7e55465?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
-    background-color: rgba(0, 255, 255, 0.2);
+    background-size: cover;
+    background-color: var(--my-color);
     background-blend-mode: overlay;
   }
   .backgroundImage .basicInfo {
@@ -42,7 +40,7 @@
     padding: 15px;
   }
   .backgroundImage .basicInfo .temp span {
-    font-size: 80px;
+    font-size: 100px;
   }
   .backgroundImage .basicInfo .otherInfo div {
     display: flex;
@@ -50,7 +48,15 @@
     align-items: center;
     padding: 2px;
   }
-  .backgroundImage .basicInfo .otherInfo div i {
+  .backgroundImage .basicInfo .otherInfo div .icon {
+    padding-right: 10px;
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+  }
+  .backgroundImage .basicInfo .otherInfo img {
+    width: 40px;
     padding-right: 10px;
   }
   .forecast {
