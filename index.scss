@@ -46,6 +46,7 @@ $myColor: var(--my-color);
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: $myColor;
             .temp {
                 padding: 15px;
                 span {
@@ -75,13 +76,33 @@ $myColor: var(--my-color);
     }
 
     .forecast {
+        background-color: $myColor;
         border: 1px solid black;
-        height: 150px;
+        height: fit-content;
         display: flex;
         justify-content: space-evenly;
-        div {
-            border: 1px solid blue;
-            width: auto;
+        .day {
+            border: 1px solid black;
+            border-radius: 20px;
+            margin: 7px 0;
+            padding: 7px 7px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .dayMaxTemp {
+                font-size: 20px;
+            }
+            .dayMinTemp {
+                font-size: 12px;
+            }
         }
+        img {
+            width: 70px;
+        }
+    }
+
+    .credit {
+        font-size: 12px;
     }
 }   
