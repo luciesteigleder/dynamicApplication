@@ -73,6 +73,12 @@ $myColor: var(--my-color);
                 }
             }
         }
+        .chartWrapper {
+            background-color: $myColor;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     .forecast {
@@ -105,4 +111,33 @@ $myColor: var(--my-color);
     .credit {
         font-size: 12px;
     }
-}   
+
+    .chartContainer {
+        width: 80%;
+
+        #canvas {
+            width: 100%;
+        }
+    }
+
+    .buttonBox {
+        max-width: 80%;
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            list-style-type: none;
+            li {
+                border: 1px solid black;
+                border-radius: 10px;
+                padding: 5px;
+                margin: 5px;
+                a {
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}

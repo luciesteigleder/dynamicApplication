@@ -39,11 +39,6 @@ const getImage = (name) => {
           backgroundImage.style.backgroundImage = `url(${photoUrl})`
           pictureName.innerText = photoAuthor
           pictureUrl.href = photoUrl
-
-          console.log('Random Photo:');
-          console.log('Photo URL:', photoUrl);
-          console.log('Author:', photoAuthor);
-          console.log('Description:', photoDescription);
         })
         .catch(error => {
           console.log('Error:', error);
@@ -55,11 +50,6 @@ const getImage = (name) => {
       backgroundImage.style.backgroundImage = `url(${photoUrl})`
       pictureName.innerText = photoAuthor
       pictureUrl.href = photoUrl
-
-      console.log('Random Photo:');
-      console.log('Photo URL:', photoUrl);
-      console.log('Author:', photoAuthor);
-      console.log('Description:', photoDescription);
     }
   })
   .catch(error => {
@@ -79,7 +69,7 @@ const arrayRandomColorFunction = () => {
 
 //change the random array into a rgb
 const hsla = (array) => {
-    return ["hsla(",array[0],",",array[1],"%,",100-array[2],"%,0.9)"].join("");
+    return ["hsla(",array[0],",",array[1],"%,",100-array[2],"%,0.8)"].join("");
   }
 
 // generates a random rgb
@@ -87,8 +77,12 @@ const randomColor = () => {
     return hsla(arrayRandomColorFunction())
 }
 
-const currentRandomColor = randomColor();
+const changeColor = () => {
+let currentRandomColor = randomColor();
 document.documentElement.style.setProperty('--my-color', currentRandomColor);
+console.log(currentRandomColor)
+}
+changeColor()
 
 
 //update the page information
@@ -141,14 +135,12 @@ const getLocalization = (city) => {
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${weatherAPIKey}`)
     .then(response => response.json())
     .then(json => {
-        console.log(json)
         cityName.innerText = json[0].name
         getImage(json[0].name)
         let currentCountryCode = json[0].country 
         fetch(`https://restcountries.com/v3.1/alpha/${currentCountryCode}`)
         .then(response => response.json())
         .then(response => {
-            console.log(response)
             countryName.innerText = response[0].name.common
         })
 
@@ -157,8 +149,6 @@ const getLocalization = (city) => {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${json[0].lat}&lon=${json[0].lon}&units=metric&appid=${weatherAPIKey}`)
         .then(response => response.json())
         .then(json => {
-            console.log(json)
-            console.log(json.weather[0].description)
             updatePage(json)
         })
     })
@@ -166,6 +156,7 @@ const getLocalization = (city) => {
 
 submitForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    changeColor()
     getLocalization(cityLabel.value.toLowerCase())
 })
 
@@ -211,24 +202,77 @@ const getforecast5Days = (city) => {
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${weatherAPIKey}`)
     .then(response => response.json())
     .then(response => {
-        console.log(response)
         fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${response[0].lat}&lon=${response[0].lon}&units=metric&appid=${weatherAPIKey}`)
         .then(response => response.json())
         .then(response => {
-            console.log("check if this is the good city")
-            console.log(response)
             let midnightValues = []
             for (let i=0; i<39; i++) {
                 if (response.list[i].dt % 86400 == 0){
                     midnightValues.push(i)
                 }
             }
-            console.log("midnight values" + midnightValues) // this array gives me the indexes of when the next 5 days start.
-            console.log("this data have to be checked: ")
-            console.log(response.list)
             getTempData_dayByDay(response.list, midnightValues)
             getNameOfTheDay(response.list, midnightValues)
             getIcons_dayByDay(response.list, midnightValues)
+            // getTodayTemp(response.list, midnightValues)
+            // getTodayTempTime(response.list, midnightValues)
+
+            const ctx = document.querySelector('#canvas');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: getTodayTempTime(response.list, midnightValues),
+                    datasets: [{
+                        label: 'temperature',
+                        data: getTodayTemp(response.list, midnightValues),
+                        borderWidth: 1,
+                        borderColor: 'black', // Customize line color
+                        //backgroundColor: 'rgba(255, 0, 0, 0.2)', // Customize line fill color
+                        borderWidth: 2, // Customize line width
+                        pointRadius: 1, // Customize point radius
+                        pointBackgroundColor: 'black' // Customize point fill color
+                    }]
+                },
+                options: {
+                    scales: {
+                    x: {
+                        grid: {
+                        display: false,
+                        color: 'grey'
+                        },
+                        ticks: {
+                        color: 'black'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                        color: 'black'
+                        }
+                    }
+                    },
+                    plugins: {
+                    legend: {
+                        labels: {
+                        color: 'black',
+                        font: {
+                            family: 'Quicksand'
+                        }
+                        }
+                    }
+                    },
+                    elements: {
+                    point: {
+                        backgroundColor: 'red',
+                        borderColor: 'red'
+                    },
+                    line: {
+                        borderColor: 'red'
+                    }
+                    }
+                }
+            });
         })
     })
 }
@@ -244,8 +288,6 @@ const getTempData_dayByDay = (array, midnightValues) => { //array is the total a
             temperatureData[`day${i}`].push(array[j].main.temp)
         }
     }
-    console.log("temperatureData")
-    console.log(temperatureData)
     getMinAndMaxPerDay(temperatureData)
 } 
 
@@ -317,8 +359,6 @@ const getIcons_dayByDay = (array, midnightValues) => { //array is the total arra
         let maxNumber = getIconsWeek(IconWeekArray); // Assign the return value to a variable
         iconsWeek.push(maxNumber); // Push the variable into the iconsWeek array
     }
-    console.log("iconsWeek");
-    console.log(iconsWeek);
     updateIconsWeek(get2numberIcons(iconsWeek))
 };
 
@@ -338,7 +378,6 @@ const get2numberIcons = (array) => {
             strings[i] = "0" + strings[i]
         }
     }
-    console.log(strings)
     return(strings)
 }
 
@@ -349,3 +388,37 @@ submitForm.addEventListener("submit", (event) => {
 
 //fir the picture contrast/saturation thing
 //make that i only get lndscapes things
+
+
+//__________________________linechart__________________________________
+
+//function to get data for the day temperature
+
+const getTodayTemp = (array, midnightValues) => {
+    let todayTemp = []
+    for (let i=0 ; i<midnightValues[0]; i++) {
+        let tempTemperature = Math.round(array[i].main.temp) // I get the temperature data for today
+        todayTemp.push(tempTemperature)
+    }
+    return(todayTemp)
+}
+
+const getTodayTempTime = (array, midnightValues) => {
+    let todayTempTime = []
+    for (let i=0 ; i<midnightValues[0]; i++) {
+        
+        let tempTemperatureTime = array[i].dt_txt //I get the corresponding hours
+        let tempTemperatureTime2 = tempTemperatureTime.split(" ")
+        let tempTemperatureTime3 = tempTemperatureTime2[1].split(":")
+        todayTempTime.push(tempTemperatureTime3[0])
+    }
+    return(todayTempTime)
+}
+
+
+
+
+
+  const changeChart = () => {
+
+  }
