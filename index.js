@@ -6,24 +6,15 @@ import {unsplashAccessKey} from './unsplashKey.js';
 let cityLabel = document.querySelector("#cityLabel")
 cityLabel.value = ""
 let submitForm = document.querySelector("#submitForm")
-let cityList = document.querySelector(".historyList")
 
-let cityName = document.querySelector(".cityName")
-let countryName = document.querySelector(".countryName")
-let weather = document.querySelector(".weather")
-let temperature = document.querySelector(".temperature")
-let iconWeather = document.querySelector(".iconWeather")
-let humidity = document.querySelector(".humidity")
-let wind = document.querySelector(".wind")
-let winddirection = document.querySelector(".windDirection")
-let windDirectionText = document.querySelector(".windDirectionText")
-let backgroundImage = document.querySelector(".backgroundImage")
 
-let pictureName = document.querySelector(".pictureName")
-let pictureUrl = document.querySelector(".pictureUrl")
+
 
 //get image from unsplash
 const getImage = (name) => {
+    let backgroundImage = document.querySelector(".backgroundImage")
+    let pictureName = document.querySelector(".pictureName")
+    let pictureUrl = document.querySelector(".pictureUrl")
 
   fetch(`https://api.unsplash.com/photos/random?query=${name}&count=1&client_id=${unsplashAccessKey}`)
   .then(response => response.json())
@@ -63,13 +54,13 @@ const arrayRandomColorFunction = () => {
     let randcolorsArray = []
     randcolorsArray.push(Math.floor(Math.random()*360))
     randcolorsArray.push(Math.floor(Math.random()*75))
-    randcolorsArray.push(Math.floor(Math.random()*50))
+    randcolorsArray.push(Math.floor((Math.random()*40)+50)) // to have a rando number between a range, we have to multiply rand by the difference between min and max and add min
     return randcolorsArray
 }
 
 //change the random array into a rgb
 const hsla = (array) => {
-    return ["hsla(",array[0],",",array[1],"%,",100-array[2],"%,0.8)"].join("");
+    return ["hsla(",array[0],",",array[1],"%,",array[2],"%,0.8)"].join("");
   }
 
 // generates a random rgb
@@ -84,17 +75,33 @@ console.log(currentRandomColor)
 }
 changeColor()
 
+//get the date of today
+function getFormattedDate(unixTimestamp) {
+  const date = new Date(unixTimestamp * 1000);
+  const options = { weekday: 'long', day: 'numeric', month: 'long' };
+  return date.toLocaleDateString('en-US', options);
+}
+
 
 //update the page information
 const updatePage = (information) => {
+    //date of the day
+    let todayNameText = document.querySelector(".todayNameText")
+    todayNameText.innerText = getFormattedDate(information.dt)
+    //weather and temperature
+    let weather = document.querySelector(".weather")
+    let temperature = document.querySelector(".temperature")
     weather.innerText = information.weather[0].description
     temperature.innerHTML = Math.floor(information.main.temp)
     //Icon weather
+    let iconWeather = document.querySelector(".iconWeather")
     let iconWName = information.weather[0].icon
     iconWeather.src = (`https://openweathermap.org/img/wn/${iconWName}@2x.png`)
     //humidity
+    let humidity = document.querySelector(".humidity")
     humidity.innerText = information.main.humidity
     //wind
+    let wind = document.querySelector(".wind")
     wind.innerText = information.wind.speed
     let windDirectionDeg = information.wind.deg
     getWindDirection(windDirectionDeg)
@@ -102,7 +109,9 @@ const updatePage = (information) => {
 
 //get the wind direction information
 const getWindDirection = (deg) => {
+    let winddirection = document.querySelector(".windDirection")
     winddirection.style.transform =  `rotate(${90+deg}deg)`
+    let windDirectionText = document.querySelector(".windDirectionText")
     let windDirectionCodetext = ""
 
     if (deg >= 337.5 || deg < 22.5) {
@@ -131,6 +140,9 @@ const getWindDirection = (deg) => {
 const getLocalization = (city) => {
 
     //get countryname and cityname
+let cityName = document.querySelector(".cityName")
+let countryName = document.querySelector(".countryName")
+
 
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${weatherAPIKey}`)
     .then(response => response.json())
@@ -150,6 +162,7 @@ const getLocalization = (city) => {
         .then(response => response.json())
         .then(json => {
             updatePage(json)
+            console.log(json)
         })
     })
 }
@@ -161,9 +174,6 @@ submitForm.addEventListener("submit", (event) => {
 })
 
 getLocalization("brussels")
-//getWindDirection(50)
-
-//getImage("bartenheim")
 
 
 
@@ -172,30 +182,6 @@ getLocalization("brussels")
 //there's 40 samples in the 5-day forecast. (every 3h)
 //we have to determine the current time, so we can start counting from tomorrow.
 //the midnight timestamps are the ones that are divisible by 86400 
-
-let day1MaxTempValue = document.querySelector(".day1MaxTempValue")
-let day1MinTempValue = document.querySelector(".day1MinTempValue")
-let day2MaxTempValue = document.querySelector(".day2MaxTempValue")
-let day2MinTempValue = document.querySelector(".day2MinTempValue")
-let day3MaxTempValue = document.querySelector(".day3MaxTempValue")
-let day3MinTempValue = document.querySelector(".day3MinTempValue")
-let day4MaxTempValue = document.querySelector(".day4MaxTempValue")
-let day4MinTempValue = document.querySelector(".day4MinTempValue")
-let day5MaxTempValue = document.querySelector(".day5MaxTempValue")
-let day5MinTempValue = document.querySelector(".day5MinTempValue")
-
-let nameOfTheWeek1 = document.querySelector(".nameOfTheWeek1")
-let nameOfTheWeek2 = document.querySelector(".nameOfTheWeek2")
-let nameOfTheWeek3 = document.querySelector(".nameOfTheWeek3")
-let nameOfTheWeek4 = document.querySelector(".nameOfTheWeek4")
-let nameOfTheWeek5 = document.querySelector(".nameOfTheWeek5")
-
-let day1Icon = document.querySelector(".day1Icon")
-let day2Icon = document.querySelector(".day2Icon")
-let day3Icon = document.querySelector(".day3Icon")
-let day4Icon = document.querySelector(".day4Icon")
-let day5Icon = document.querySelector(".day5Icon")
-
 
 const getforecast5Days = (city) => {
     //get city & country name
@@ -214,71 +200,92 @@ const getforecast5Days = (city) => {
             getTempData_dayByDay(response.list, midnightValues)
             getNameOfTheDay(response.list, midnightValues)
             getIcons_dayByDay(response.list, midnightValues)
-            // getTodayTemp(response.list, midnightValues)
-            // getTodayTempTime(response.list, midnightValues)
 
             const ctx = document.querySelector('#canvas');
 
             new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: getTodayTempTime(response.list, midnightValues),
-                    datasets: [{
-                        label: 'temperature',
-                        data: getTodayTemp(response.list, midnightValues),
-                        borderWidth: 1,
-                        borderColor: 'black', // Customize line color
-                        //backgroundColor: 'rgba(255, 0, 0, 0.2)', // Customize line fill color
-                        borderWidth: 2, // Customize line width
-                        pointRadius: 1, // Customize point radius
-                        pointBackgroundColor: 'black' // Customize point fill color
-                    }]
+            type: 'bar',
+            data: {
+                labels: getTodayTempTime(response.list, midnightValues),
+                datasets: [{
+                label: 'temperature',
+                data: getTodayTemp(response.list, midnightValues),
+                borderWidth: 1,
+                borderColor: 'black',
+                backgroundColor: 'black',
+                barThickness: 10,
+                pointRadius: 1,
+                pointBackgroundColor: 'black'
+                }]
+            },
+            options: {
+                scales: {
+                x: {
+                    ticks: {
+                    color: 'black'
+                    }
                 },
-                options: {
-                    scales: {
-                    x: {
-                        grid: {
-                        display: false,
-                        color: 'grey'
-                        },
-                        ticks: {
-                        color: 'black'
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                        color: 'black'
-                        }
+                y: {
+                    position: 'left',
+                    ticks: {
+                    color: 'black',
+                    stepSize: 10,
+                    callback: function(value) {
+                        return value + '°C';
                     }
                     },
-                    plugins: {
-                    legend: {
-                        labels: {
-                        color: 'black',
-                        font: {
-                            family: 'Quicksand'
-                        }
-                        }
-                    }
-                    },
-                    elements: {
-                    point: {
-                        backgroundColor: 'red',
-                        borderColor: 'red'
-                    },
-                    line: {
-                        borderColor: 'red'
-                    }
+                    grid: {
+                    display: false
                     }
                 }
+                },
+                plugins: {
+                legend: {
+                    labels: {
+                    color: 'black',
+                    font: {
+                        family: 'Quicksand'
+                    },
+                    boxWidth: 0
+                    }
+                },
+                tooltip: {
+                    enabled: false
+                },
+                datalabels: { // Custom plugin to display y-values on each bar
+                    anchor: 'end',
+                    align: 'top',
+                    color: 'black',
+                    font: {
+                    family: 'Quicksand'
+                    },
+                    formatter: function(value, context) {
+                    return value + '°C';
+                    }
+                }
+                },
+                hover: {
+                mode: null
+                },
+                elements: {
+                point: {
+                    backgroundColor: 'red',
+                    borderColor: 'red'
+                },
+                bar: {
+                    backgroundColor: 'black',
+                    borderColor: 'black'
+                }
+                }
+            },
             });
-        })
-    })
-}
+        });
+    });
+};
 
 getforecast5Days("brussels")
 
+//this function splits the total array of data into 5 days
 const getTempData_dayByDay = (array, midnightValues) => { //array is the total array of datas, midnightvalue tells me when do the day start   
     const temperatureData = {};
     midnightValues.push(40) // so it adds the last data, even if it's not a midnight value, but it closes the day
@@ -291,40 +298,34 @@ const getTempData_dayByDay = (array, midnightValues) => { //array is the total a
     getMinAndMaxPerDay(temperatureData)
 } 
 
+//this function gives us the max an min per day
 const getMinAndMaxPerDay = (objectTemp) => {
-    
-    //Day1
-    let minDay1 = Math.min(...objectTemp.day1)
-    let maxDay1 = Math.max(...objectTemp.day1)
-    //Day2
-    let minDay2 = Math.min(...objectTemp.day2)
-    let maxDay2 = Math.max(...objectTemp.day2)    
-    //Day3
-    let minDay3 = Math.min(...objectTemp.day3)
-    let maxDay3 = Math.max(...objectTemp.day3)
-    //Day4
-    let minDay4 = Math.min(...objectTemp.day4)
-    let maxDay4 = Math.max(...objectTemp.day4)
-    //Day5
-    let minDay5 = Math.min(...objectTemp.day5)
-    let maxDay5 = Math.max(...objectTemp.day5)
-
-    day1MaxTempValue.innerText = Math.round(maxDay1)
-    day1MinTempValue.innerText = Math.round(minDay1)
-
-    day2MaxTempValue.innerText = Math.round(maxDay2)
-    day2MinTempValue.innerText = Math.round(minDay2)
-
-    day3MaxTempValue.innerText = Math.round(maxDay3)
-    day3MinTempValue.innerText = Math.round(minDay3)
-
-    day4MaxTempValue.innerText = Math.round(maxDay4)
-    day4MinTempValue.innerText = Math.round(minDay4)
-
-    day5MaxTempValue.innerText = Math.round(maxDay5)
-    day5MinTempValue.innerText = Math.round(minDay5)
+    let maxDayValue = []
+    let minDayValue = []
+    const days = Object.keys(objectTemp);
+    for (let i = 0; i < days.length; i++) {
+        const day = days[i];
+        const minValue = Math.round(Math.min(...objectTemp[day]))
+        const maxValue = Math.round(Math.max(...objectTemp[day]))
+        minDayValue.push(minValue);
+        maxDayValue.push(maxValue);
+    }
+    updateMaxAndMinTemp(minDayValue, maxDayValue)
 }
 
+//this function updates the data on the page with the max and min
+const updateMaxAndMinTemp = (minDayValue, maxDayValue) => {
+    let maxTempSpan = []
+    let minTempSpan = []
+    for  (let i = 1 ; i < 6 ; i++) {
+        const maxTempElement = document.querySelector(`.day${i}MaxTempValue`);
+        maxTempElement.innerText = maxDayValue[i-1]
+        const minTempElement = document.querySelector(`.day${i}MinTempValue`);
+        minTempElement.innerText = minDayValue[i-1]
+    }
+}
+
+//this function gets the corresponding days of the week
 const getNameOfTheDay = (array, midnightValues) => {
     let nameOfTheDay = []
     for (let i = 0 ; i <5 ; i++) {
@@ -334,13 +335,14 @@ const getNameOfTheDay = (array, midnightValues) => {
     updateDayOfTheWeek(nameOfTheDay)
 }
 
+//this functions updates the days of the week
 const updateDayOfTheWeek = (array) => {
-    nameOfTheWeek1.innerText = array[0]
-    nameOfTheWeek2.innerText = array[1]
-    nameOfTheWeek3.innerText = array[2]
-    nameOfTheWeek4.innerText = array[3]
-    nameOfTheWeek5.innerText = array[4]
+    for (let i=1 ; i<array.length+1; i++) {
+        const nameOfTheWeek = document.querySelector(`.nameOfTheWeek${i}`)
+        nameOfTheWeek.innerText = array[i-1]
+    }
 }
+//this function gets the number corresponding to the icons for each day
 //for the icon, I will get the worst of the day, which is the highest number
 const getIconsWeek = (IconArray) => {
     const numbersIcons = IconArray.map(str => parseInt(str.slice(0, -1)));
@@ -348,9 +350,9 @@ const getIconsWeek = (IconArray) => {
     return maxNumber
 }
 
+//this function get the array with the values of the icon for each day
 const getIcons_dayByDay = (array, midnightValues) => { //array is the total array of datas, midnightvalue tells me when do the day start   
     let iconsWeek = []
-    //midnightValues.push(40) // so it adds the last data, even if it's not a midnight value, but it closes the day
     for (let i = 1; i <= 5; i++) { //with this, we will go one day at the time. we prepare the overall object
         let IconWeekArray = []
         for (let j = midnightValues[i-1]; j < midnightValues[i] ; j++) { //this, we only focus about day 1 first, then day 2 etc
@@ -362,12 +364,12 @@ const getIcons_dayByDay = (array, midnightValues) => { //array is the total arra
     updateIconsWeek(get2numberIcons(iconsWeek))
 };
 
+//this one updates the source of the image for each icon
 const updateIconsWeek = (array) => {
-    day1Icon.src = `https://openweathermap.org/img/wn/${array[0]}d@2x.png`
-    day2Icon.src = `https://openweathermap.org/img/wn/${array[1]}d@2x.png`
-    day3Icon.src = `https://openweathermap.org/img/wn/${array[2]}d@2x.png`
-    day4Icon.src = `https://openweathermap.org/img/wn/${array[3]}d@2x.png`
-    day5Icon.src = `https://openweathermap.org/img/wn/${array[4]}d@2x.png`
+    for (let i = 0 ; i<array.length ; i++) {
+        const dayIcon = document.querySelector(`.day${i+1}Icon`)
+        dayIcon.src = `https://openweathermap.org/img/wn/${array[i]}d@2x.png`
+    }
 }
 
 //the array removes the 0 before a single number, so I need to put it back before I put it in the link
@@ -381,6 +383,7 @@ const get2numberIcons = (array) => {
     return(strings)
 }
 
+//event listener
 submitForm.addEventListener("submit", (event) => {
     event.preventDefault();
     getforecast5Days(cityLabel.value.toLowerCase())
@@ -417,8 +420,3 @@ const getTodayTempTime = (array, midnightValues) => {
 
 
 
-
-
-  const changeChart = () => {
-
-  }

@@ -19,49 +19,59 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 25px;
+    font-size: 30px;
   }
   .titleLocalization .cityNamePara {
     padding: 0 10px;
   }
   .backgroundImage {
     height: 500px;
-    background-image: url(https://plus.unsplash.com/premium_photo-1666283181610-b95ee7e55465?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
     background-size: cover;
     background-color: var(--my-color);
     background-blend-mode: overlay;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
   }
-  .backgroundImage .basicInfo {
+  .backgroundImage .wrapper {
+    height: 100%;
+    background-color: var(--my-color);
+  }
+  .backgroundImage .wrapper .todayName {
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+    padding-top: 20px;
+  }
+  .backgroundImage .wrapper .basicInfo {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--my-color);
   }
-  .backgroundImage .basicInfo .temp {
+  .backgroundImage .wrapper .basicInfo .temp {
     padding: 15px;
   }
-  .backgroundImage .basicInfo .temp span {
+  .backgroundImage .wrapper .basicInfo .temp span {
     font-size: 100px;
   }
-  .backgroundImage .basicInfo .otherInfo div {
+  .backgroundImage .wrapper .basicInfo .otherInfo div {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 2px;
   }
-  .backgroundImage .basicInfo .otherInfo div .icon {
+  .backgroundImage .wrapper .basicInfo .otherInfo div .icon {
     padding-right: 10px;
     width: 40px;
     height: 30px;
     line-height: 30px;
     text-align: center;
   }
-  .backgroundImage .basicInfo .otherInfo img {
+  .backgroundImage .wrapper .basicInfo .otherInfo img {
     width: 40px;
     padding-right: 10px;
   }
-  .backgroundImage .chartWrapper {
-    background-color: var(--my-color);
+  .backgroundImage .wrapper .chartWrapper {
     display: flex;
     justify-content: center;
     align-items: center;

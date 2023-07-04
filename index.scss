@@ -27,7 +27,7 @@ $myColor: var(--my-color);
         display : flex;
         justify-content: center;
         align-items: center;
-        font-size: 25px;
+        font-size: 30px;
         .cityNamePara {
             padding: 0 10px
         }
@@ -38,47 +38,65 @@ $myColor: var(--my-color);
 
     .backgroundImage {
         height: 500px;
-        background-image: url(https://plus.unsplash.com/premium_photo-1666283181610-b95ee7e55465?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
+        // background-image: url(https://plus.unsplash.com/premium_photo-1666283181610-b95ee7e55465?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);
         background-size: cover;
         background-color: $myColor;
         background-blend-mode: overlay;
-        .basicInfo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        .wrapper {
+            height: 100%;
             background-color: $myColor;
-            .temp {
-                padding: 15px;
-                span {
-                    font-size: 100px;
-                }
+            .todayName {
+                display: flex;
+                justify-content: center;
+                font-size: 22px;
+                padding-top: 20px;
             }
-            .otherInfo {
-                div {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    padding: 2px;
-                    .icon {
-                        padding-right: 10px;
-                        width: 40px;
-                        height: 30px;
-                        line-height: 30px;
-                        text-align: center;
+        
+            .basicInfo {
+                display: flex;
+                justify-content: center;
+                align-items: center;     
+                .temp {
+                    padding: 15px;
+        
+                    span {
+                        font-size: 100px;
                     }
                 }
-                img {
-                    width: 40px;
-                    padding-right: 10px;
+        
+                .otherInfo {
+                    div {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        padding: 2px;
+        
+                        .icon {
+                            padding-right: 10px;
+                            width: 40px;
+                            height: 30px;
+                            line-height: 30px;
+                            text-align: center;
+                        }
+                    }
+        
+                    img {
+                        width: 40px;
+                        padding-right: 10px;
+                    }
                 }
             }
+        
+            .chartWrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
-        .chartWrapper {
-            background-color: $myColor;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        
     }
 
     .forecast {
