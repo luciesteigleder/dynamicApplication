@@ -101,7 +101,6 @@ $myColor: var(--my-color);
 
     .forecast {
         background-color: $myColor;
-        border: 1px solid black;
         height: fit-content;
         display: flex;
         justify-content: space-evenly;
@@ -128,6 +127,7 @@ $myColor: var(--my-color);
 
     .credit {
         font-size: 12px;
+        background-color: $myColor;
     }
 
     .chartContainer {
