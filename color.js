@@ -8,20 +8,12 @@ const arrayRandomColorFunction = () => {
     return randcolorsArray
 }
 
-//change the random array into a rgb
-const hsla = (array) => {
-    return ["hsla(",array[0],",",array[1],"%,",array[2],"%,0.8)"].join("");
-  }
-
-// generates a random rgb
-const randomColor = () => {
-    return hsla(arrayRandomColorFunction())
-}
-
 const changeColor = () => {
-let currentRandomColor = randomColor();
-document.documentElement.style.setProperty('--my-color', currentRandomColor);
-console.log(currentRandomColor)
+    let randcolorsArray = arrayRandomColorFunction()
+    let myColor = `hsla(${randcolorsArray[0]},${randcolorsArray[1]}%,${randcolorsArray[2]}%,0.8)`
+    let myColorStrong = `hsl(${randcolorsArray[0]},${randcolorsArray[1]}%,${randcolorsArray[2]}%)`
+    document.documentElement.style.setProperty('--my-color', myColor);
+    document.documentElement.style.setProperty('--my-color-strong', myColorStrong)
 }
 
 export {changeColor}

@@ -83,7 +83,7 @@
     justify-content: space-evenly;
   }
   .forecast .day {
-    border: 1px solid black;
+    background-color: var(--my-color-strong);
     border-radius: 20px;
     margin: 7px 0;
     padding: 7px 7px;

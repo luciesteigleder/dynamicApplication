@@ -6,6 +6,7 @@
 }
 
 $myColor: var(--my-color);
+$strongColor: var(--my-color-strong);
 
 
 @media screen and (max-width: 500px) {
@@ -105,7 +106,7 @@ $myColor: var(--my-color);
         display: flex;
         justify-content: space-evenly;
         .day {
-            border: 1px solid black;
+            background-color: $strongColor;
             border-radius: 20px;
             margin: 7px 0;
             padding: 7px 7px;
